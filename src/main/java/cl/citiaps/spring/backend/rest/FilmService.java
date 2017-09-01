@@ -1,5 +1,6 @@
 package cl.citiaps.spring.backend.rest;
 
+import cl.citiaps.spring.backend.entities.Actor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.citiaps.spring.backend.entities.Film;
 import cl.citiaps.spring.backend.repository.FilmRepository;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/films")
@@ -39,4 +42,12 @@ public class FilmService {
         return filmRepository.save(resource);
     }
 
+    //Método GET que retorna todos los actores de una película en específico
+    @RequestMapping(value = "/{id}/actors", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Actor> actorsOfFilm(@PathVariable("id") Integer id){
+        Film film = filmRepository.findOne(id);
+        List<Actor> filmsResultantes = film.getActores();
+        return filmsResultantes;
+    }
 }

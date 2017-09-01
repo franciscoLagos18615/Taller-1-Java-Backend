@@ -1,15 +1,17 @@
 package cl.citiaps.spring.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 
 @Entity
 @Table(name = "film")
-@NamedQuery(name="Film.findAll", query="SELECT a FROM Film a")
 public class Film implements Serializable{
     private static final long serialVersionUID = 1L;
 
@@ -51,10 +53,19 @@ public class Film implements Serializable{
     private String specialFeatures;
 
     @Column(name="last_update", nullable=false)
-    private Timestamp lastUpdate;
+    private String lastUpdate;
+
+    //Lista que contiene todos los actores de una película
+    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "films")
+    @JsonIgnore
+    private List<Actor> actores;
 
     public Film(){
 
+    }
+
+    public List<Actor> getActores() {
+        return this.actores;
     }
 
     public Integer getFilmId() {
@@ -153,11 +164,11 @@ public class Film implements Serializable{
         this.specialFeatures = specialFeatures;
     }
 
-    public Timestamp getLastUpdate() {
+    public String getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(String lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 }

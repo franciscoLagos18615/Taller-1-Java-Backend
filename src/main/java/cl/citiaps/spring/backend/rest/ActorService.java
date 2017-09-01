@@ -1,5 +1,7 @@
 package cl.citiaps.spring.backend.rest;
 
+import cl.citiaps.spring.backend.entities.Film;
+import cl.citiaps.spring.backend.repository.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,12 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.citiaps.spring.backend.entities.Actor;
 import cl.citiaps.spring.backend.repository.ActorRepository;
 
+import java.util.*;
+
 @RestController  
 @RequestMapping("/actors")
 public class ActorService {
 	
 	@Autowired
 	private ActorRepository actorRepository;
+
+	@Autowired
+	private FilmRepository filmRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
@@ -38,5 +45,14 @@ public class ActorService {
 	public Actor create(@RequestBody Actor resource) {
 	     return actorRepository.save(resource);
 	}
-	 
+
+	//Método GET que retorna todas las películas en las que participa un Actor en específico
+	@RequestMapping(value = "/{id}/films", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Film> filmsOfActor(@PathVariable("id") Integer id){
+		Actor actor = actorRepository.findOne(id);
+		List<Film> filmsResultantes = actor.getFilms();
+		return filmsResultantes;
+	}
+
 }
