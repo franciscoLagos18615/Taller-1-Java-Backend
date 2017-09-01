@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -30,11 +32,12 @@ public class Actor implements Serializable {
 	@Column(name="last_update", nullable=false)
 	private String lastUpdate;
 
-	//Atributo que contiene todas las películas asociadas al actor
-	@ManyToMany(cascade = {CascadeType.ALL})
-	@JoinTable(name = "film_actor", joinColumns = {@JoinColumn(name = "actor_id")}, inverseJoinColumns = {@JoinColumn(name = "film_id")})
-	@JsonIgnore
-	private List<Film> films;
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(name = "film_actor",
+            joinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "actor_id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"))
+    private List<Film> films;
 
 	public Actor() {
 	}

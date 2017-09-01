@@ -1,5 +1,6 @@
 package cl.citiaps.spring.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -7,7 +8,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -55,9 +58,11 @@ public class Film implements Serializable{
     @Column(name="last_update", nullable=false)
     private String lastUpdate;
 
-    //Lista que contiene todos los actores de una película
-    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "films")
+    @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
+    @JoinTable(name = "film_actor",
+            joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "actor_id"))
     private List<Actor> actores;
 
     public Film(){
