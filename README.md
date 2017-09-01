@@ -1,7 +1,7 @@
-# Taller N°1 de Java para Backend
+# Integrantes Grupo 7:
+Ljubo Franulic Rodriguez
+Ariel Tirado Maturana
+Leiser Mahu Urbina
+Víctor Muñoz Pesce
+Francisco Lagos Sepúlveda
 
-Para correr la aplicación en el boot de Spring, ejecutar el comando **gradle bootrun**.
-
-Para empaquetar la aplicación en un war, ejecutar el comando **gradle war**.
-
-# Recuerden cambiar el user y root en el archivo application.properties.
