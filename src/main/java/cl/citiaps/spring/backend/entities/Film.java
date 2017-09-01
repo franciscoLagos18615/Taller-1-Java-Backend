@@ -68,6 +68,8 @@ public class Film implements Serializable{
         return this.actores;
     }
 
+    public void addActor(Actor actor) {this.actores.add(actor);}
+
     public Integer getFilmId() {
         return filmId;
     }

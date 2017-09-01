@@ -1,6 +1,7 @@
 package cl.citiaps.spring.backend.rest;
 
 import cl.citiaps.spring.backend.entities.Actor;
+import cl.citiaps.spring.backend.repository.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,9 @@ public class FilmService {
 
     @Autowired
     private FilmRepository filmRepository;
+
+    @Autowired
+    private ActorRepository actorRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
@@ -50,4 +54,16 @@ public class FilmService {
         List<Actor> filmsResultantes = film.getActores();
         return filmsResultantes;
     }
+
+    //films/1/actors/2 --> vincula el actor 2 a la película 1.
+    @RequestMapping(value = "/{idFilm}/actors/{idActor}", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public Film vincula(@PathVariable("idFilm") Integer idFilm, @PathVariable("idActor") Integer idActor) {
+        Actor actor = actorRepository.findOne(idActor);
+        Film film = filmRepository.findOne(idFilm);
+        film.addActor(actor);
+        return filmRepository.save(film);
+    }
+
 }

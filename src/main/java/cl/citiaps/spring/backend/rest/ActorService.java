@@ -55,4 +55,15 @@ public class ActorService {
 		return filmsResultantes;
 	}
 
+	//actors/1/films/2 --> vincula la película 2 al actor 1
+	@RequestMapping(value = "/{idActor}/films/{idFilm}", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public Actor vincula(@PathVariable("idActor") Integer idActor, @PathVariable("idFilm") Integer idFilm) {
+		Actor actor = actorRepository.findOne(idActor);
+		Film film = filmRepository.findOne(idFilm);
+		actor.addFilm(film);
+		return actorRepository.save(actor);
+	}
+
 }

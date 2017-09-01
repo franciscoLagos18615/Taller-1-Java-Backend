@@ -43,6 +43,8 @@ public class Actor implements Serializable {
 		return this.films;
 	}
 
+	public void addFilm(Film film) {this.films.add(film);}
+
 	public int getActorId() {
 		return this.actorId;
 	}
